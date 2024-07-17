@@ -1,0 +1,192 @@
+﻿  正在验证源
+  正在将源远程复制到“192.168.33.128”
+  正在验证体系结构
+  正在验证体系结构
+  正在启动远程生成
+  正在编译源:
+  Channel.c
+D:\ME\Cpp_project\ReactorHttp\Channel.c(5,48): warning : implicit declaration of function ‘malloc’ [-Wimplicit-function-declaration]
+D:\ME\Cpp_project\ReactorHttp\Channel.c(5,48): warning :     5 |     struct Channel* channel = (struct Channel*)malloc(sizeof(struct Channel));
+D:\ME\Cpp_project\ReactorHttp\Channel.c(5,48): warning :       |                                                ^~~~~~
+D:\ME\Cpp_project\ReactorHttp\Channel.c(2,1): message : include ‘<stdlib.h>’ or provide a declaration of ‘malloc’
+D:\ME\Cpp_project\ReactorHttp\Channel.c(2,1): message :     1 | #include "Channel.h"
+D:\ME\Cpp_project\ReactorHttp\Channel.c(2,1): message :   +++ |+#include <stdlib.h>
+D:\ME\Cpp_project\ReactorHttp\Channel.c(2,1): message :     2 |
+D:\ME\Cpp_project\ReactorHttp\Channel.c(5,48): warning : incompatible implicit declaration of built-in function ‘malloc’ [-Wbuiltin-declaration-mismatch]
+D:\ME\Cpp_project\ReactorHttp\Channel.c(5,48): warning :     5 |     struct Channel* channel = (struct Channel*)malloc(sizeof(struct Channel));
+D:\ME\Cpp_project\ReactorHttp\Channel.c(5,48): warning :       |                                                ^~~~~~
+D:\ME\Cpp_project\ReactorHttp\Channel.c(5,48): message : include ‘<stdlib.h>’ or provide a declaration of ‘malloc’
+  ChannelMap.c
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.h(18,1): error : unknown type name ‘bool’
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.h(18,1): error :    18 | bool makeMapRoom(struct ChannelMap* map, int newSize, int unitSize);
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.h(18,1): error :       | ^~~~
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.h(1,1): message : ‘bool’ is defined in header ‘<stdbool.h>’; did you forget to ‘#include <stdbool.h>’?
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.h(1,1): message :   +++ |+#include <stdbool.h>
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.h(1,1): message :     1 | #pragma once
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.c(10,47): warning : conversion to ‘long unsigned int’ from ‘int’ may change the sign of the result [-Wsign-conversion]
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.c(10,47): warning :    10 |     map->list = (struct Channel**)malloc(size * sizeof(struct Channel*));
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.c(10,47): warning :       |                                               ^
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.c(25,9): warning : implicit declaration of function ‘dfree’; did you mean ‘free’? [-Wimplicit-function-declaration]
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.c(25,9): warning :    25 |         dfree(map->list);
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.c(25,9): warning :       |         ^~~~~
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.c(25,9): warning :       |         free
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.c(31,6): error : conflicting types for ‘makeMapRoom’; have ‘_Bool(struct ChannelMap *, int,  int)’
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.c(31,6): error :    31 | bool makeMapRoom(struct ChannelMap* map, int newSize, int unitSize)
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.c(31,6): error :       |      ^~~~~~~~~~~
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.h(18,6): message : previous declaration of ‘makeMapRoom’ with type ‘int(struct ChannelMap *, int,  int)’
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.h(18,6): message :    18 | bool makeMapRoom(struct ChannelMap* map, int newSize, int unitSize);
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.h(18,6): message :       |      ^~~~~~~~~~~
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.c(42,60): warning : conversion to ‘size_t’ {aka ‘long unsigned int’} from ‘int’ may change the sign of the result [-Wsign-conversion]
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.c(42,60): warning :    42 |         struct Channel** temp = realloc(map->list, curSize * unitSize);
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.c(42,60): warning :       |                                                    ~~~~~~~~^~~~~~~~~~
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.c(48,9): warning : implicit declaration of function ‘memset’ [-Wimplicit-function-declaration]
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.c(48,9): warning :    48 |         memset(&map->list[map->size], 0, (curSize - map->size) * unitSize);
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.c(48,9): warning :       |         ^~~~~~
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.c(5,1): message : include ‘<string.h>’ or provide a declaration of ‘memset’
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.c(5,1): message :     4 | #include <stdio.h>
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.c(5,1): message :   +++ |+#include <string.h>
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.c(5,1): message :     5 |
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.c(48,9): warning : incompatible implicit declaration of built-in function ‘memset’ [-Wbuiltin-declaration-mismatch]
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.c(48,9): warning :    48 |         memset(&map->list[map->size], 0, (curSize - map->size) * unitSize);
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.c(48,9): warning :       |         ^~~~~~
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.c(48,9): message : include ‘<string.h>’ or provide a declaration of ‘memset’
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.c(48,64): warning : conversion to ‘long unsigned int’ from ‘int’ may change the sign of the result [-Wsign-conversion]
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.c(48,64): warning :    48 |         memset(&map->list[map->size], 0, (curSize - map->size) * unitSize);
+D:\ME\Cpp_project\ReactorHttp\ChannelMap.c(48,64): warning :       |                                          ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~
+  EpollDispatcher.c
+D:\ME\Cpp_project\ReactorHttp\EventLoop.h(9,5): error : unknown type name ‘Dispatcher’
+D:\ME\Cpp_project\ReactorHttp\EventLoop.h(9,5): error :     9 |     Dispatcher* dispatcher;
+D:\ME\Cpp_project\ReactorHttp\EventLoop.h(9,5): error :       |     ^~~~~~~~~~
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(30,49): warning : implicit declaration of function ‘malloc’ [-Wimplicit-function-declaration]
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(30,49): warning :    30 |     struct EpollData* data = (struct EpollData*)malloc(sizeof(struct EpollData));
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(30,49): warning :       |                                                 ^~~~~~
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(3,1): message : include ‘<stdlib.h>’ or provide a declaration of ‘malloc’
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(3,1): message :     2 | #include <sys/epoll.h>
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(3,1): message :   +++ |+#include <stdlib.h>
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(3,1): message :     3 |
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(30,49): warning : incompatible implicit declaration of built-in function ‘malloc’ [-Wbuiltin-declaration-mismatch]
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(30,49): warning :    30 |     struct EpollData* data = (struct EpollData*)malloc(sizeof(struct EpollData));
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(30,49): warning :       |                                                 ^~~~~~
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(30,49): message : include ‘<stdlib.h>’ or provide a declaration of ‘malloc’
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(34,9): warning : implicit declaration of function ‘perror’ [-Wimplicit-function-declaration]
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(34,9): warning :    34 |         perror("epoll_create");
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(34,9): warning :       |         ^~~~~~
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(35,9): warning : implicit declaration of function ‘exit’ [-Wimplicit-function-declaration]
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(35,9): warning :    35 |         exit(0);
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(35,9): warning :       |         ^~~~
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(35,9): message : include ‘<stdlib.h>’ or provide a declaration of ‘exit’
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(35,9): warning : incompatible implicit declaration of built-in function ‘exit’ [-Wbuiltin-declaration-mismatch]
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(35,9): message : include ‘<stdlib.h>’ or provide a declaration of ‘exit’
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(37,41): warning : implicit declaration of function ‘calloc’ [-Wimplicit-function-declaration]
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(37,41): warning :    37 |     data->events = (struct epoll_event*)calloc(Max, sizeof(struct epoll_event));
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(37,41): warning :       |                                         ^~~~~~
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(37,41): message : include ‘<stdlib.h>’ or provide a declaration of ‘calloc’
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(37,41): warning : incompatible implicit declaration of built-in function ‘calloc’ [-Wbuiltin-declaration-mismatch]
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(37,41): message : include ‘<stdlib.h>’ or provide a declaration of ‘calloc’
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(56,17): warning : conversion to ‘uint32_t’ {aka ‘unsigned int’} from ‘int’ may change the sign of the result [-Wsign-conversion]
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(56,17): warning :    56 |     ev.events = events;
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(56,17): warning :       |                 ^~~~~~
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(67,9): warning : incompatible implicit declaration of built-in function ‘exit’ [-Wbuiltin-declaration-mismatch]
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(67,9): warning :    67 |         exit(0);
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(67,9): warning :       |         ^~~~
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(67,9): message : include ‘<stdlib.h>’ or provide a declaration of ‘exit’
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(78,9): warning : incompatible implicit declaration of built-in function ‘exit’ [-Wbuiltin-declaration-mismatch]
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(78,9): warning :    78 |         exit(0);
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(78,9): warning :       |         ^~~~
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(78,9): message : include ‘<stdlib.h>’ or provide a declaration of ‘exit’
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(89,9): warning : incompatible implicit declaration of built-in function ‘exit’ [-Wbuiltin-declaration-mismatch]
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(89,9): warning :    89 |         exit(0);
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(89,9): warning :       |         ^~~~
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(89,9): message : include ‘<stdlib.h>’ or provide a declaration of ‘exit’
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(100,22): warning : conversion to ‘int’ from ‘uint32_t’ {aka ‘unsigned int’} may change the sign of the result [-Wsign-conversion]
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(100,22): warning :   100 |         int events = data->events[i].events;
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(100,22): warning :       |                      ^~~~
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(101,13): warning : unused variable ‘fd’ [-Wunused-variable]
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(101,13): warning :   101 |         int fd = data->events[i].data.fd;
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(101,13): warning :       |             ^~
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(123,5): warning : implicit declaration of function ‘free’ [-Wimplicit-function-declaration]
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(123,5): warning :   123 |     free(data->events);
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(123,5): warning :       |     ^~~~
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(123,5): message : include ‘<stdlib.h>’ or provide a declaration of ‘free’
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(123,5): warning : incompatible implicit declaration of built-in function ‘free’ [-Wbuiltin-declaration-mismatch]
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(123,5): message : include ‘<stdlib.h>’ or provide a declaration of ‘free’
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(124,5): warning : implicit declaration of function ‘close’ [-Wimplicit-function-declaration]
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(124,5): warning :   124 |     close(data->epfd);
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(124,5): warning :       |     ^~~~~
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(126,1): warning : no return statement in function returning non-void [-Wreturn-type]
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(126,1): warning :   126 | }
+D:\ME\Cpp_project\ReactorHttp\EpollDispatcher.c(126,1): warning :       | ^
+  EventLoop.c
+  main.cpp
+  PollDispatcher.c
+D:\ME\Cpp_project\ReactorHttp\EventLoop.h(9,5): error : unknown type name ‘Dispatcher’
+D:\ME\Cpp_project\ReactorHttp\EventLoop.h(9,5): error :     9 |     Dispatcher* dispatcher;
+D:\ME\Cpp_project\ReactorHttp\EventLoop.h(9,5): error :       |     ^~~~~~~~~~
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(29,47): warning : implicit declaration of function ‘malloc’ [-Wimplicit-function-declaration]
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(29,47): warning :    29 |     struct PollData* data = (struct PollData*)malloc(sizeof(struct PollData));
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(29,47): warning :       |                                               ^~~~~~
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(3,1): message : include ‘<stdlib.h>’ or provide a declaration of ‘malloc’
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(3,1): message :     2 | #include <sys/poll.h>
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(3,1): message :   +++ |+#include <stdlib.h>
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(3,1): message :     3 |
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(29,47): warning : incompatible implicit declaration of built-in function ‘malloc’ [-Wbuiltin-declaration-mismatch]
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(29,47): warning :    29 |     struct PollData* data = (struct PollData*)malloc(sizeof(struct PollData));
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(29,47): warning :       |                                               ^~~~~~
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(29,47): message : include ‘<stdlib.h>’ or provide a declaration of ‘malloc’
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(58,35): warning : conversion from ‘int’ to ‘short int’ may change value [-Wconversion]
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(58,35): warning :    58 |             data->fds[i].events = events;
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(58,35): warning :       |                                   ^~~~~~
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(109,35): warning : conversion from ‘int’ to ‘short int’ may change value [-Wconversion]
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(109,35): warning :   109 |             data->fds[i].events = events;
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(109,35): warning :       |                                   ^~~~~~
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(123,45): warning : conversion to ‘nfds_t’ {aka ‘long unsigned int’} from ‘int’ may change the sign of the result [-Wsign-conversion]
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(123,45): warning :   123 |     int count = poll(data->fds, data->maxfd + 1, timeout * 1000);
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(123,45): warning :       |                                 ~~~~~~~~~~~~^~~
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(126,9): warning : implicit declaration of function ‘perror’ [-Wimplicit-function-declaration]
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(126,9): warning :   126 |         perror("poll");
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(126,9): warning :       |         ^~~~~~
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(127,9): warning : implicit declaration of function ‘exit’ [-Wimplicit-function-declaration]
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(127,9): warning :   127 |         exit(0);
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(127,9): warning :       |         ^~~~
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(127,9): message : include ‘<stdlib.h>’ or provide a declaration of ‘exit’
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(127,9): warning : incompatible implicit declaration of built-in function ‘exit’ [-Wbuiltin-declaration-mismatch]
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(127,9): message : include ‘<stdlib.h>’ or provide a declaration of ‘exit’
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(150,5): warning : implicit declaration of function ‘free’ [-Wimplicit-function-declaration]
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(150,5): warning :   150 |     free(data);
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(150,5): warning :       |     ^~~~
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(150,5): message : include ‘<stdlib.h>’ or provide a declaration of ‘free’
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(150,5): warning : incompatible implicit declaration of built-in function ‘free’ [-Wbuiltin-declaration-mismatch]
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(150,5): message : include ‘<stdlib.h>’ or provide a declaration of ‘free’
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(151,1): warning : no return statement in function returning non-void [-Wreturn-type]
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(151,1): warning :   151 | }
+D:\ME\Cpp_project\ReactorHttp\PollDispatcher.c(151,1): warning :       | ^
+  SelectDispatcher.c
+D:\ME\Cpp_project\ReactorHttp\EventLoop.h(9,5): error : unknown type name ‘Dispatcher’
+D:\ME\Cpp_project\ReactorHttp\EventLoop.h(9,5): error :     9 |     Dispatcher* dispatcher;
+D:\ME\Cpp_project\ReactorHttp\EventLoop.h(9,5): error :       |     ^~~~~~~~~~
+D:\ME\Cpp_project\ReactorHttp\SelectDispatcher.c(32,51): warning : implicit declaration of function ‘malloc’ [-Wimplicit-function-declaration]
+D:\ME\Cpp_project\ReactorHttp\SelectDispatcher.c(32,51): warning :    32 |     struct SelectData* data = (struct SelectData*)malloc(sizeof(struct SelectData));
+D:\ME\Cpp_project\ReactorHttp\SelectDispatcher.c(32,51): warning :       |                                                   ^~~~~~
+D:\ME\Cpp_project\ReactorHttp\SelectDispatcher.c(4,1): message : include ‘<stdlib.h>’ or provide a declaration of ‘malloc’
+D:\ME\Cpp_project\ReactorHttp\SelectDispatcher.c(4,1): message :     3 | #include <stdio.h>
+D:\ME\Cpp_project\ReactorHttp\SelectDispatcher.c(4,1): message :   +++ |+#include <stdlib.h>
+D:\ME\Cpp_project\ReactorHttp\SelectDispatcher.c(4,1): message :     4 |
+D:\ME\Cpp_project\ReactorHttp\SelectDispatcher.c(32,51): warning : incompatible implicit declaration of built-in function ‘malloc’ [-Wbuiltin-declaration-mismatch]
+D:\ME\Cpp_project\ReactorHttp\SelectDispatcher.c(32,51): warning :    32 |     struct SelectData* data = (struct SelectData*)malloc(sizeof(struct SelectData));
+D:\ME\Cpp_project\ReactorHttp\SelectDispatcher.c(32,51): warning :       |                                                   ^~~~~~
+D:\ME\Cpp_project\ReactorHttp\SelectDispatcher.c(32,51): message : include ‘<stdlib.h>’ or provide a declaration of ‘malloc’
+D:\ME\Cpp_project\ReactorHttp\SelectDispatcher.c(102,9): warning : implicit declaration of function ‘exit’ [-Wimplicit-function-declaration]
+D:\ME\Cpp_project\ReactorHttp\SelectDispatcher.c(102,9): warning :   102 |         exit(0);
+D:\ME\Cpp_project\ReactorHttp\SelectDispatcher.c(102,9): warning :       |         ^~~~
+D:\ME\Cpp_project\ReactorHttp\SelectDispatcher.c(102,9): message : include ‘<stdlib.h>’ or provide a declaration of ‘exit’
+D:\ME\Cpp_project\ReactorHttp\SelectDispatcher.c(102,9): warning : incompatible implicit declaration of built-in function ‘exit’ [-Wbuiltin-declaration-mismatch]
+D:\ME\Cpp_project\ReactorHttp\SelectDispatcher.c(102,9): message : include ‘<stdlib.h>’ or provide a declaration of ‘exit’
+D:\ME\Cpp_project\ReactorHttp\SelectDispatcher.c(121,5): warning : implicit declaration of function ‘free’ [-Wimplicit-function-declaration]
+D:\ME\Cpp_project\ReactorHttp\SelectDispatcher.c(121,5): warning :   121 |     free(data);
+D:\ME\Cpp_project\ReactorHttp\SelectDispatcher.c(121,5): warning :       |     ^~~~
+D:\ME\Cpp_project\ReactorHttp\SelectDispatcher.c(121,5): message : include ‘<stdlib.h>’ or provide a declaration of ‘free’
+D:\ME\Cpp_project\ReactorHttp\SelectDispatcher.c(121,5): warning : incompatible implicit declaration of built-in function ‘free’ [-Wbuiltin-declaration-mismatch]
+D:\ME\Cpp_project\ReactorHttp\SelectDispatcher.c(121,5): message : include ‘<stdlib.h>’ or provide a declaration of ‘free’
+D:\ME\Cpp_project\ReactorHttp\SelectDispatcher.c(122,1): warning : no return statement in function returning non-void [-Wreturn-type]
+D:\ME\Cpp_project\ReactorHttp\SelectDispatcher.c(122,1): warning :   122 | }
+D:\ME\Cpp_project\ReactorHttp\SelectDispatcher.c(122,1): warning :       | ^
