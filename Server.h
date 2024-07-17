@@ -1,36 +1,36 @@
-#pragma once  // ·ÀÖ¹Í·ÎÄ¼ş±»ÖØ¸´°üº¬
+#pragma once  // é˜²æ­¢å¤´æ–‡ä»¶è¢«é‡å¤åŒ…å«
 
-// ³õÊ¼»¯¼àÌıµÄÌ×½Ó×Ö
+// åˆå§‹åŒ–ç›‘å¬çš„å¥—æ¥å­—
 int initListenFd(unsigned short port);
 
-// Æô¶¯epoll
+// å¯åŠ¨epoll
 int epollRun(int lfd);
 
-// ºÍ¿Í»§¶Ë½¨Á¢Á¬½Ó
+// å’Œå®¢æˆ·ç«¯å»ºç«‹è¿æ¥
 //int acceptClient(int lfd, int epfd);
 void* acceptClient(void* arg);
 
-// ½ÓÊÜhttpÇëÇóÏûÏ¢
+// æ¥å—httpè¯·æ±‚æ¶ˆæ¯
 //int recvHttpRequest(int cfd, int epfd);
 void* recvHttpRequest(void* arg);
 
-// ½âÎöÇëÇóĞĞ
+// è§£æè¯·æ±‚è¡Œ
 int parseRequestLine(const char* line, int cfd);
 
-// ·¢ËÍÎÄ¼ş
+// å‘é€æ–‡ä»¶
 int sendFile(const char* fileName, int cfd);
 
-// ·¢ËÍÏìÓ¦Í·(×´Ì¬ĞĞ+ÏìÓ¦Í·)
+// å‘é€å“åº”å¤´(çŠ¶æ€è¡Œ+å“åº”å¤´)
 int sendHeadMsg(int cfd, int status, const char* descr, const char* type, int length);
 
-// ¸ù¾İÎÄ¼şµÃµ½HTTPµÄcontent type
+// æ ¹æ®æ–‡ä»¶å¾—åˆ°HTTPçš„content type
 const char* getFileType(const char* name);
 
-// ·¢ËÍÄ¿Â¼
+// å‘é€ç›®å½•
 int sendDir(const char* dirName, int cfd);
 
-// °Ñ16½øÖÆ×Ö·û×ª»»³ÉÕûĞÍÊı
+// æŠŠ16è¿›åˆ¶å­—ç¬¦è½¬æ¢æˆæ•´å‹æ•°
 int hexToDec(char c);
 
-// ½âÂëÌØÊâ·ûºÅ£¬×ª»»Îªutf-8
+// è§£ç ç‰¹æ®Šç¬¦å·ï¼Œè½¬æ¢ä¸ºutf-8
 void decodeMsg(char* to, char* from);
