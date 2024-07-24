@@ -1,6 +1,7 @@
 #include "Dispatcher.h"
 #include <sys/select.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #define Max 1024
 struct SelectData
@@ -13,7 +14,7 @@ static void* selectInit();
 static int selectAdd(struct Channel* channel, struct EventLoop* evLoop);
 static int selectRemove(struct Channel* channel, struct EventLoop* evLoop);
 static int selectModify(struct Channel* channel, struct EventLoop* evLoop);
-static int selectDispatch(struct EventLoop* evLoop, int timeout); // µ¥Î»£ºs
+static int selectDispatch(struct EventLoop* evLoop, int timeout); // å•ä½: s
 static int selectClear(struct EventLoop* evLoop);
 static void setFdSet(struct Channel* channel, struct SelectData* data);
 static void clearFdSet(struct Channel* channel, struct SelectData* data);
@@ -36,7 +37,6 @@ static void* selectInit()
     return data;
 }
 
-
 static void setFdSet(struct Channel* channel, struct SelectData* data)
 {
     if (channel->events & ReadEvent)
@@ -48,7 +48,6 @@ static void setFdSet(struct Channel* channel, struct SelectData* data)
         FD_SET(channel->fd, &data->writeSet);
     }
 }
-
 static void clearFdSet(struct Channel* channel, struct SelectData* data)
 {
     if (channel->events & ReadEvent)
@@ -63,7 +62,7 @@ static void clearFdSet(struct Channel* channel, struct SelectData* data)
 
 static int selectAdd(struct Channel* channel, struct EventLoop* evLoop)
 {
-    struct SelectData* data = (struct SelectData*)evLoop->dispatcher;
+    struct SelectData* data = (struct SelectData*)evLoop->dispatcherData;
     if (channel->fd >= Max)
     {
         return -1;
@@ -74,20 +73,23 @@ static int selectAdd(struct Channel* channel, struct EventLoop* evLoop)
 
 static int selectRemove(struct Channel* channel, struct EventLoop* evLoop)
 {
-    struct SelectData* data = (struct SelectData*)evLoop->dispatcher;
+    struct SelectData* data = (struct SelectData*)evLoop->dispatcherData;
     clearFdSet(channel, data);
+    // é€šè¿‡ channel é‡Šæ”¾å¯¹åº”çš„ TcpConnection èµ„æº
+    channel->destroyCallback(channel->arg);
+
     return 0;
 }
 
 static int selectModify(struct Channel* channel, struct EventLoop* evLoop)
 {
-    struct SelectData* data = (struct SelectData*)evLoop->dispatcher;
+    struct SelectData* data = (struct SelectData*)evLoop->dispatcherData;
     setFdSet(channel, data);
     clearFdSet(channel, data);
     return 0;
 }
 
-static int selectDispatch(struct EventLoop* evLoop, int timeout) // µ¥Î»£ºs
+static int selectDispatch(struct EventLoop* evLoop, int timeout)
 {
     struct SelectData* data = (struct SelectData*)evLoop->dispatcherData;
     struct timeval val;
@@ -107,6 +109,7 @@ static int selectDispatch(struct EventLoop* evLoop, int timeout) // µ¥Î»£ºs
         {
             eventActivate(evLoop, i, ReadEvent);
         }
+
         if (FD_ISSET(i, &wrtmp))
         {
             eventActivate(evLoop, i, WriteEvent);
@@ -119,4 +122,5 @@ static int selectClear(struct EventLoop* evLoop)
 {
     struct SelectData* data = (struct SelectData*)evLoop->dispatcherData;
     free(data);
+    return 0;
 }

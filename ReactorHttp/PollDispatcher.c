@@ -1,5 +1,7 @@
 #include "Dispatcher.h"
-#include <sys/poll.h>
+#include <poll.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 #define Max 1024
 struct PollData
@@ -12,7 +14,7 @@ static void* pollInit();
 static int pollAdd(struct Channel* channel, struct EventLoop* evLoop);
 static int pollRemove(struct Channel* channel, struct EventLoop* evLoop);
 static int pollModify(struct Channel* channel, struct EventLoop* evLoop);
-static int pollDispatch(struct EventLoop* evLoop, int timeout); // µ¥Î»£ºs
+static int pollDispatch(struct EventLoop* evLoop, int timeout); // å•ä½: s
 static int pollClear(struct EventLoop* evLoop);
 
 struct Dispatcher PollDispatcher = {
@@ -40,7 +42,7 @@ static void* pollInit()
 
 static int pollAdd(struct Channel* channel, struct EventLoop* evLoop)
 {
-    struct PollData* data = (struct PollData*)evLoop->dispatcher;
+    struct PollData* data = (struct PollData*)evLoop->dispatcherData;
     int events = 0;
     if (channel->events & ReadEvent)
     {
@@ -51,13 +53,13 @@ static int pollAdd(struct Channel* channel, struct EventLoop* evLoop)
         events |= POLLOUT;
     }
     int i = 0;
-    for (i = 0; i < Max; ++i)
+    for (; i < Max; ++i)
     {
         if (data->fds[i].fd == -1)
         {
             data->fds[i].events = events;
             data->fds[i].fd = channel->fd;
-            data->maxfd = data->maxfd > i ? data->maxfd : i;
+            data->maxfd = i > data->maxfd ? i : data->maxfd;
             break;
         }
     }
@@ -70,9 +72,9 @@ static int pollAdd(struct Channel* channel, struct EventLoop* evLoop)
 
 static int pollRemove(struct Channel* channel, struct EventLoop* evLoop)
 {
-    struct PollData* data = (struct PollData*)evLoop->dispatcher;
+    struct PollData* data = (struct PollData*)evLoop->dispatcherData;
     int i = 0;
-    for (i = 0; i < Max; ++i)
+    for (; i < Max; ++i)
     {
         if (data->fds[i].fd == channel->fd)
         {
@@ -82,6 +84,8 @@ static int pollRemove(struct Channel* channel, struct EventLoop* evLoop)
             break;
         }
     }
+    // é€šè¿‡ channel é‡Šæ”¾å¯¹åº”çš„ TcpConnection èµ„æº
+    channel->destroyCallback(channel->arg);
     if (i >= Max)
     {
         return -1;
@@ -91,7 +95,7 @@ static int pollRemove(struct Channel* channel, struct EventLoop* evLoop)
 
 static int pollModify(struct Channel* channel, struct EventLoop* evLoop)
 {
-    struct PollData* data = (struct PollData*)evLoop->dispatcher;
+    struct PollData* data = (struct PollData*)evLoop->dispatcherData;
     int events = 0;
     if (channel->events & ReadEvent)
     {
@@ -102,7 +106,7 @@ static int pollModify(struct Channel* channel, struct EventLoop* evLoop)
         events |= POLLOUT;
     }
     int i = 0;
-    for (i = 0; i < Max; ++i)
+    for (; i < Max; ++i)
     {
         if (data->fds[i].fd == channel->fd)
         {
@@ -117,10 +121,10 @@ static int pollModify(struct Channel* channel, struct EventLoop* evLoop)
     return 0;
 }
 
-static int pollDispatch(struct EventLoop* evLoop, int timeout) // µ¥Î»£ºs
+static int pollDispatch(struct EventLoop* evLoop, int timeout)
 {
     struct PollData* data = (struct PollData*)evLoop->dispatcherData;
-    int count = poll(data->fds, data->maxfd + 1, timeout * 1000);
+    int count = poll(data->fds, data->maxfd+1, timeout * 1000);
     if (count == -1)
     {
         perror("poll");
@@ -132,6 +136,7 @@ static int pollDispatch(struct EventLoop* evLoop, int timeout) // µ¥Î»£ºs
         {
             continue;
         }
+        
         if (data->fds[i].revents & POLLIN)
         {
             eventActivate(evLoop, data->fds[i].fd, ReadEvent);
@@ -148,4 +153,5 @@ static int pollClear(struct EventLoop* evLoop)
 {
     struct PollData* data = (struct PollData*)evLoop->dispatcherData;
     free(data);
+    return 0;
 }

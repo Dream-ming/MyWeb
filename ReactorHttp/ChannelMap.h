@@ -1,19 +1,15 @@
 #pragma once
 #include <stdbool.h>
-
 struct ChannelMap
 {
-    // ¼ÇÂ¼Ö¸ÕëÖ¸ÏòµÄÊı×éµÄÔªËØ×Ü¸öÊı
-    int size;
-    // ¶ş¼¶Ö¸Õë£¬Ö¸ÏòÒ»¸öChannelÀàĞÍµÄÖ¸ÕëÊı×é
+    int size;   // è®°å½•æŒ‡é’ˆæŒ‡å‘çš„æ•°ç»„çš„å…ƒç´ æ€»ä¸ªæ•°
+    // struct Channel* list[];
     struct Channel** list;
 };
 
-// ³õÊ¼»¯
+// åˆå§‹åŒ–
 struct ChannelMap* channelMapInit(int size);
-
-// Çå¿Õmap
+// æ¸…ç©ºmap
 void ChannelMapClear(struct ChannelMap* map);
-
-// À©Èİº¯Êı
+// é‡æ–°åˆ†é…å†…å­˜ç©ºé—´
 bool makeMapRoom(struct ChannelMap* map, int newSize, int unitSize);

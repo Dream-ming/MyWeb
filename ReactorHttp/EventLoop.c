@@ -1,20 +1,24 @@
 #include "EventLoop.h"
 #include <assert.h>
 #include <sys/socket.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
 struct EventLoop* eventLoopInit()
 {
     return eventLoopInitEx(NULL);
 }
 
-// Ð´Êý¾Ý
+// å†™æ•°æ®
 void taskWakeup(struct EventLoop* evLoop)
 {
-    const char* msg = "wakeup!";
+    const char* msg = "æˆ‘æ˜¯è¦æˆä¸ºæµ·è´¼çŽ‹çš„ç”·äºº!!!";
     write(evLoop->socketPair[0], msg, strlen(msg));
 }
 
-// ¶ÁÊý¾Ý
+// è¯»æ•°æ®
 int readLocalMessage(void* arg)
 {
     struct EventLoop* evLoop = (struct EventLoop*)arg;
@@ -29,23 +33,23 @@ struct EventLoop* eventLoopInitEx(const char* threadName)
     evLoop->isQuit = false;
     evLoop->threadID = pthread_self();
     pthread_mutex_init(&evLoop->mutex, NULL);
-    strcpy(evLoop->threadName, (threadName == NULL) ? "MainThread" : threadName);
+    strcpy(evLoop->threadName, threadName == NULL ? "MainThread" : threadName);
     evLoop->dispatcher = &EpollDispatcher;
     evLoop->dispatcherData = evLoop->dispatcher->init();
-    // Á´±í
+    // é“¾è¡¨
     evLoop->head = evLoop->tail = NULL;
     // map
     evLoop->channelMap = channelMapInit(128);
-    // ×ÔÓÃµÄÎÄ¼þÃèÊö·û,socketPair[0]·¢Êý¾Ý£¬socketPair[1]½ÓÊÕÊý¾Ý£¬¼¤»î×ÓÏß³Ì
     int ret = socketpair(AF_UNIX, SOCK_STREAM, 0, evLoop->socketPair);
     if (ret == -1)
     {
         perror("socketpair");
         exit(0);
     }
+    // æŒ‡å®šè§„åˆ™: evLoop->socketPair[0] å‘é€æ•°æ®, evLoop->socketPair[1] æŽ¥æ”¶æ•°æ®
     struct Channel* channel = channelInit(evLoop->socketPair[1], ReadEvent, 
-        readLocalMessage, NULL, evLoop);
-    // channel Ìí¼Óµ½ÈÎÎñ¶ÓÁÐ
+        readLocalMessage, NULL, NULL, evLoop);
+    // channel æ·»åŠ åˆ°ä»»åŠ¡é˜Ÿåˆ—
     eventLoopAddTask(evLoop, channel, ADD);
 
     return evLoop;
@@ -54,17 +58,17 @@ struct EventLoop* eventLoopInitEx(const char* threadName)
 int eventLoopRun(struct EventLoop* evLoop)
 {
     assert(evLoop != NULL);
-    // È¡³öÊÂ¼þ·Ö·¢ºÍ¼ì²âÄ£ÐÍ
+    // å–å‡ºäº‹ä»¶åˆ†å‘å’Œæ£€æµ‹æ¨¡åž‹
     struct Dispatcher* dispatcher = evLoop->dispatcher;
-    // ±È½ÏÏß³ÌIDÊÇ·ñÕý³£
+    // æ¯”è¾ƒçº¿ç¨‹IDæ˜¯å¦æ­£å¸¸
     if (evLoop->threadID != pthread_self())
     {
         return -1;
     }
-    // Ñ­»·½øÐÐÊÂ¼þ´¦Àí
+    // å¾ªçŽ¯è¿›è¡Œäº‹ä»¶å¤„ç†
     while (!evLoop->isQuit)
     {
-        dispatcher->dispatch(evLoop, 2);  // ³¬Ê±Ê±³¤ 2s
+        dispatcher->dispatch(evLoop, 2);    // è¶…æ—¶æ—¶é•¿ 2s
         eventLoopProcessTask(evLoop);
     }
     return 0;
@@ -72,11 +76,11 @@ int eventLoopRun(struct EventLoop* evLoop)
 
 int eventActivate(struct EventLoop* evLoop, int fd, int event)
 {
-    if (evLoop == NULL || fd < 0)
+    if (fd < 0 || evLoop == NULL)
     {
         return -1;
     }
-    // È¡³öfd¶ÔÓ¦µÄchannel
+    // å–å‡ºchannel
     struct Channel* channel = evLoop->channelMap->list[fd];
     assert(channel->fd == fd);
     if (event & ReadEvent && channel->readCallback)
@@ -92,42 +96,42 @@ int eventActivate(struct EventLoop* evLoop, int fd, int event)
 
 int eventLoopAddTask(struct EventLoop* evLoop, struct Channel* channel, int type)
 {
-    // ¼ÓËø£¬±£»¤¹²Ïí×ÊÔ´
+    // åŠ é”, ä¿æŠ¤å…±äº«èµ„æº
     pthread_mutex_lock(&evLoop->mutex);
-    // ´´½¨ÐÂ½Úµã
+    // åˆ›å»ºæ–°èŠ‚ç‚¹
     struct ChannelElement* node = (struct ChannelElement*)malloc(sizeof(struct ChannelElement));
     node->channel = channel;
     node->type = type;
     node->next = NULL;
-    // ½ÚµãÌí¼Óµ½Á´±í
+    // é“¾è¡¨ä¸ºç©º
     if (evLoop->head == NULL)
     {
         evLoop->head = evLoop->tail = node;
     }
     else
     {
-        evLoop->tail->next = node;
-        evLoop->tail = node;
+        evLoop->tail->next = node;  // add
+        evLoop->tail = node;        // åŽç§»
     }
     pthread_mutex_unlock(&evLoop->mutex);
-    // ´¦Àí½Úµã
+    // å¤„ç†èŠ‚ç‚¹
     /*
-        1. ¶ÔÓÚÁ´±í½ÚµãµÄÌí¼Ó£¬¿ÉÄÜÊÇ×ÓÏß³ÌÒ²¿ÉÒÔÊÇÖ÷Ïß³Ì
-            1). ÐÞ¸ÄfdµÄÊÂ¼þ£¬ÓÉµ±Ç°×ÓÏß³Ì·¢Æð
-            2). Ìí¼ÓÐÂµÄfd£¬ÓÉÖ÷Ïß³Ì·¢Æð
-        2. ´¦ÀíÈÎÎñ¶ÓÁÐ£¬ÐèÒªÖ¸¶¨×ÓÏß³Ì£¬²»ÄÜÓÉÖ÷Ïß³Ì³Ðµ£
+    * ç»†èŠ‚: 
+    *   1. å¯¹äºŽé“¾è¡¨èŠ‚ç‚¹çš„æ·»åŠ : å¯èƒ½æ˜¯å½“å‰çº¿ç¨‹ä¹Ÿå¯èƒ½æ˜¯å…¶ä»–çº¿ç¨‹(ä¸»çº¿ç¨‹)
+    *       1). ä¿®æ”¹fdçš„äº‹ä»¶, å½“å‰å­çº¿ç¨‹å‘èµ·, å½“å‰å­çº¿ç¨‹å¤„ç†
+    *       2). æ·»åŠ æ–°çš„fd, æ·»åŠ ä»»åŠ¡èŠ‚ç‚¹çš„æ“ä½œæ˜¯ç”±ä¸»çº¿ç¨‹å‘èµ·çš„
+    *   2. ä¸èƒ½è®©ä¸»çº¿ç¨‹å¤„ç†ä»»åŠ¡é˜Ÿåˆ—, éœ€è¦ç”±å½“å‰çš„å­çº¿ç¨‹å–å¤„ç†
     */
     if (evLoop->threadID == pthread_self())
     {
-        // µ±Ç°×ÓÏß³Ì
+        // å½“å‰å­çº¿ç¨‹(åŸºäºŽå­çº¿ç¨‹çš„è§’åº¦åˆ†æž)
         eventLoopProcessTask(evLoop);
     }
     else
     {
-        // Ö÷Ïß³Ì -- ¸æËß×ÓÏß³Ì´¦ÀíÈÎÎñ¶ÓÁÐÖÐµÄÈÎÎñ
-        // 1. ×ÓÏß³ÌÔÚ¹¤×÷ 2. ×ÓÏß³Ì±»×èÈû
+        // ä¸»çº¿ç¨‹ -- å‘Šè¯‰å­çº¿ç¨‹å¤„ç†ä»»åŠ¡é˜Ÿåˆ—ä¸­çš„ä»»åŠ¡
+        // 1. å­çº¿ç¨‹åœ¨å·¥ä½œ 2. å­çº¿ç¨‹è¢«é˜»å¡žäº†:select, poll, epoll
         taskWakeup(evLoop);
-
     }
     return 0;
 }
@@ -135,24 +139,24 @@ int eventLoopAddTask(struct EventLoop* evLoop, struct Channel* channel, int type
 int eventLoopProcessTask(struct EventLoop* evLoop)
 {
     pthread_mutex_lock(&evLoop->mutex);
-    // È¡³öÍ·½Úµã
+    // å–å‡ºå¤´ç»“ç‚¹
     struct ChannelElement* head = evLoop->head;
     while (head != NULL)
     {
         struct Channel* channel = head->channel;
         if (head->type == ADD)
         {
-            // Ìí¼Ó
+            // æ·»åŠ 
             eventLoopAdd(evLoop, channel);
         }
         else if (head->type == DELETE)
         {
-            // É¾³ý
+            // åˆ é™¤
             eventLoopRemove(evLoop, channel);
         }
         else if (head->type == MODIFY)
         {
-            // ÐÞ¸Ä
+            // ä¿®æ”¹
             eventLoopModify(evLoop, channel);
         }
         struct ChannelElement* tmp = head;
@@ -170,13 +174,13 @@ int eventLoopAdd(struct EventLoop* evLoop, struct Channel* channel)
     struct ChannelMap* channelMap = evLoop->channelMap;
     if (fd >= channelMap->size)
     {
-        // mapÀï·Å²»ÏÂµ±Ç°fd£¬À©ÈÝ
-        if (!makeMapRoom(channelMap, fd, sizeof(struct Channl*)))
+        // æ²¡æœ‰è¶³å¤Ÿçš„ç©ºé—´å­˜å‚¨é”®å€¼å¯¹ fd - channel ==> æ‰©å®¹
+        if (!makeMapRoom(channelMap, fd, sizeof(struct Channel*)))
         {
             return -1;
         }
     }
-    // ÕÒµ½fd¶ÔÓ¦µÄÊý×éÔªËØ
+    // æ‰¾åˆ°fdå¯¹åº”çš„æ•°ç»„å…ƒç´ ä½ç½®, å¹¶å­˜å‚¨
     if (channelMap->list[fd] == NULL)
     {
         channelMap->list[fd] = channel;
@@ -201,7 +205,7 @@ int eventLoopModify(struct EventLoop* evLoop, struct Channel* channel)
 {
     int fd = channel->fd;
     struct ChannelMap* channelMap = evLoop->channelMap;
-    if (fd >= channelMap->size || channelMap->list[fd] == NULL)
+    if (channelMap->list[fd] == NULL)
     {
         return -1;
     }
@@ -211,11 +215,11 @@ int eventLoopModify(struct EventLoop* evLoop, struct Channel* channel)
 
 int destroyChannel(struct EventLoop* evLoop, struct Channel* channel)
 {
-    // É¾³ýchannelºÍfdµÄ¶ÔÓ¦¹ØÏµ
+    // åˆ é™¤ channel å’Œ fd çš„å¯¹åº”å…³ç³»
     evLoop->channelMap->list[channel->fd] = NULL;
-    // ¹Ø±Õfd
+    // å…³é—­ fd
     close(channel->fd);
-    // ÊÍ·Åchannel
+    // é‡Šæ”¾ channel
     free(channel);
     return 0;
 }

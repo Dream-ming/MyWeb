@@ -1,10 +1,10 @@
 #pragma once
 #include <stdbool.h>
 
-// ¶¨Òåº¯ÊıÖ¸Õë
+// å®šä¹‰å‡½æ•°æŒ‡é’ˆ
 typedef int(*handleFunc)(void* arg);
 
-// ¶¨ÒåÎÄ¼şÃèÊö·ûµÄ¶ÁĞ´ÊÂ¼ş
+// å®šä¹‰æ–‡ä»¶æè¿°ç¬¦çš„è¯»å†™äº‹ä»¶
 enum FDEvent
 {
     TimeOut = 0x01,
@@ -14,22 +14,21 @@ enum FDEvent
 
 struct Channel
 {
-    // ÎÄ¼şÃèÊö·û
+    // æ–‡ä»¶æè¿°ç¬¦
     int fd;
-    // ÊÂ¼ş
+    // äº‹ä»¶
     int events;
-    // »Øµ÷º¯Êı
+    // å›è°ƒå‡½æ•°
     handleFunc readCallback;
     handleFunc writeCallback;
-    // »Øµ÷º¯ÊıµÄ²ÎÊı
+    handleFunc destroyCallback;
+    // å›è°ƒå‡½æ•°çš„å‚æ•°
     void* arg;
 };
 
-// ³õÊ¼»¯Ò»¸öChannel
-struct Channel* channelInit(int fd, int events, handleFunc readFunc, handleFunc writeFunc, void* arg);
-
-// ĞŞ¸ÄfdµÄĞ´ÊÂ¼ş(¼ì²â or ²»¼ì²â)
+// åˆå§‹åŒ–ä¸€ä¸ªChannel
+struct Channel* channelInit(int fd, int events, handleFunc readFunc, handleFunc writeFunc, handleFunc destroyFunc, void* arg);;
+// ä¿®æ”¹fdçš„å†™äº‹ä»¶(æ£€æµ‹ or ä¸æ£€æµ‹)
 void writeEventEnable(struct Channel* channel, bool flag);
-
-// ÅĞ¶ÏÊÇ·ñĞèÒªĞŞ¸Ä¼ì²âÎÄ¼şÃèÊö·ûµÄĞ´ÊÂ¼ş
+// åˆ¤æ–­æ˜¯å¦éœ€è¦æ£€æµ‹æ–‡ä»¶æè¿°ç¬¦çš„å†™äº‹ä»¶
 bool isWriteEventEnable(struct Channel* channel);

@@ -2,18 +2,17 @@
 #include <pthread.h>
 #include "EventLoop.h"
 
-// ¶¨Òå×ÓÏß³Ì¶ÔÓ¦µÄ½á¹¹Ìå
+// å®šä¹‰å­çº¿ç¨‹å¯¹åº”çš„ç»“æ„ä½“
 struct WorkerThread
 {
-    pthread_t threadID;
+    pthread_t threadID; // ID
     char name[24];
-    pthread_mutex_t mutex;
-    pthread_cond_t cond;
-    struct EventLoop* evLoop;
+    pthread_mutex_t mutex;  // äº’æ–¥é”
+    pthread_cond_t cond;    // æ¡ä»¶å˜é‡
+    struct EventLoop* evLoop;   // ååº”å †æ¨¡å‹
 };
 
-// ³õÊ¼»¯
-int workerThreadInit(struct WorkerThread* thread, int index);
-
-// Æô¶¯Ïß³Ì
+// åˆå§‹åŒ–
+int workerThreadInit(struct WorkerThread* thread, int index); 
+// å¯åŠ¨çº¿ç¨‹
 void workerThreadRun(struct WorkerThread* thread);

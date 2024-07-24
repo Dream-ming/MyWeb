@@ -1,19 +1,19 @@
 #pragma once
 #include "Channel.h"
 #include "EventLoop.h"
-
+struct EventLoop;
 struct Dispatcher
 {
-    // init -- ³õÊ¼»¯epoll£¬poll»òselectĞèÒªµÄÊı¾İ¿â
+    // init -- åˆå§‹åŒ–epoll, poll æˆ–è€… select éœ€è¦çš„æ•°æ®å—
     void* (*init)();
-    // Ìí¼Ó
+    // æ·»åŠ 
     int (*add)(struct Channel* channel, struct EventLoop* evLoop);
-    // É¾³ı
+    // åˆ é™¤
     int (*remove)(struct Channel* channel, struct EventLoop* evLoop);
-    // ĞŞ¸Ä
+    // ä¿®æ”¹
     int (*modify)(struct Channel* channel, struct EventLoop* evLoop);
-    // ÊÂ¼ş¼ì²â
-    int (*dispatch)(struct EventLoop* evLoop, int timeout); // µ¥Î»£ºs
-    // Çå³ıÊı¾İ(¹Ø±Õfd»òÊÍ·ÅÄÚ´æ)
+    // äº‹ä»¶ç›‘æµ‹
+    int (*dispatch)(struct EventLoop* evLoop, int timeout); // å•ä½: s
+    // æ¸…é™¤æ•°æ®(å…³é—­fdæˆ–è€…é‡Šæ”¾å†…å­˜)
     int (*clear)(struct EventLoop* evLoop);
 };

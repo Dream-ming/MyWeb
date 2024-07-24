@@ -1,7 +1,7 @@
 #include "ChannelMap.h"
-#include <stdlib.h>
-#include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 struct ChannelMap* channelMapInit(int size)
 {
@@ -22,7 +22,7 @@ void ChannelMapClear(struct ChannelMap* map)
                 free(map->list[i]);
             }
         }
-        dfree(map->list);
+        free(map->list);
         map->list = NULL;
     }
     map->size = 0;
@@ -33,12 +33,12 @@ bool makeMapRoom(struct ChannelMap* map, int newSize, int unitSize)
     if (map->size < newSize)
     {
         int curSize = map->size;
-        // À©ÈİÀ©´óÒ»±¶
+        // å®¹é‡æ¯æ¬¡æ‰©å¤§åŸæ¥çš„ä¸€å€
         while (curSize < newSize)
         {
             curSize *= 2;
         }
-        // À©Èİ realloc
+        // æ‰©å®¹ realloc
         struct Channel** temp = realloc(map->list, curSize * unitSize);
         if (temp == NULL)
         {
