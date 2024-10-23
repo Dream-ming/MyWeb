@@ -31,21 +31,6 @@
 
 1、[三种IO多路复用技术](https://github.com/Dream-ming/Learning_Note/blob/main/%E7%BD%91%E7%BB%9C/Socket/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8/README.md)
 
-2、[同步/异步，阻塞/非阻塞]()
-### 同步/异步，阻塞/非阻塞
-* 同步
-  * 指程序完全按照代码序列的顺序执行
-* 异步
-  * 指程序的执行需要由系统事件驱动
-* 半同步半异步模式 (Reactor)
-  * 同步线程用于处理客户逻辑
-  * 异步线程用于处理I/O事件
-  * 异步线程监听到客户请求后，就将其封装成请求对象并插入请求队列中
-  * 请求队列将通知某个工作在同步模式的工作线程来读取并处理该请求对象
-* 半同步半反应堆模式 (Proactor)
-  * 主线程充当异步线程，负责监听所有 socket 的读写事件
-  * 若有新的连接到来，主线程接收，并往 epoll 内核事件表中注册该事件
-  * 若有读写事件发生，主线程从 socket 上接收数据，并将其封装成请求对象，插入请求队列当中
-  * 所有工作线程睡眠在请求队列上，竞争处理请求队列上的任务
+2、[同步/异步，阻塞/非阻塞](https://github.com/Dream-ming/Learning_Note/tree/main/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E5%90%8C%E6%AD%A5%E4%B8%8E%E5%BC%82%E6%AD%A5%EF%BC%8C%E9%98%BB%E5%A1%9E%E4%B8%8E%E9%9D%9E%E9%98%BB%E5%A1%9E)
 
-### HTTP 报文格式
+3、[HTTP协议](https://github.com/Dream-ming/Learning_Note/tree/main/%E7%BD%91%E7%BB%9C/HTTP)
