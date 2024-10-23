@@ -1,6 +1,6 @@
 # MyWeb
 
-## 1、开发进度
+## 开发进度
 
 本项目开发了一个基于Linux平台的轻量级HTTP服务器
 * 采用了Reactor高并发模型
@@ -27,10 +27,11 @@
 * HEAD / HTTP/1.0
 
 
-## 2、理论基础
+## 理论基础
 
-[三种IO多路复用技术](https://github.com/Dream-ming/Learning_Note/blob/main/%E7%BD%91%E7%BB%9C/Socket/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8/README.md)
+1、[三种IO多路复用技术](https://github.com/Dream-ming/Learning_Note/blob/main/%E7%BD%91%E7%BB%9C/Socket/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8/README.md)
 
+2、[同步/异步，阻塞/非阻塞]()
 ### 同步/异步，阻塞/非阻塞
 * 同步
   * 指程序完全按照代码序列的顺序执行
